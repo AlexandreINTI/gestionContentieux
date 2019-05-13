@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,9 @@ public class Utilisateur implements Serializable{
 	private String email;
 	private String prenom;
 	private String nom;
+	@Column(unique=true)
+	private String username;
+	private String password;
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="Utilisateur_Tache",
 			joinColumns= {@JoinColumn(name="idUtilisateur",referencedColumnName="idUtilisateur")},
@@ -77,6 +81,28 @@ public class Utilisateur implements Serializable{
 		this.nom = nom;
 	}
 
+	public Utilisateur(Long idUtilisateur, String email, String prenom, String nom, String username, String password,
+			Set<Tache> listtache, Set<Role> listrole) {
+		super();
+		this.idUtilisateur = idUtilisateur;
+		this.email = email;
+		this.prenom = prenom;
+		this.nom = nom;
+		this.username = username;
+		this.password = password;
+		this.listtache = listtache;
+		this.listrole = listrole;
+	}
+
+	public Utilisateur(String email, String prenom, String nom, String username, String password) {
+		super();
+		this.email = email;
+		this.prenom = prenom;
+		this.nom = nom;
+		this.username = username;
+		this.password = password;
+	}
+
 	public Long getIdUtilisateur() {
 		return idUtilisateur;
 	}
@@ -125,10 +151,26 @@ public class Utilisateur implements Serializable{
 		this.listrole = listrole;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
 		return "Utilisateur [idUtilisateur=" + idUtilisateur + ", email=" + email + ", prenom=" + prenom + ", nom="
-				+ nom + "]";
+				+ nom + ", username=" + username + ", password=" + password + "]";
 	}
 	
 
